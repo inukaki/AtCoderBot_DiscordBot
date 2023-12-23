@@ -1,4 +1,5 @@
 const { SlashCommandBuilder } = require('discord.js');
+const axios = require('axios');
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -25,5 +26,15 @@ module.exports = {
 // ユーザー登録をする関数
 async function registerUser(AtCoderName, DiscordId) {
     // ここにユーザー登録の処理を書く
-    
+    const data = {
+        AtCoderName: AtCoderName,
+        DiscordId: DiscordId,
+    };
+    const url = '';
+    try {
+        const response = await axios.post(url, data);
+        console.log(response.data);
+    } catch (error) {
+        console.error(`エラーだよw 頑張ってねw : ${error}`);
+    }
 }
