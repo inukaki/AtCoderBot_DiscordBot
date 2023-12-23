@@ -27,10 +27,10 @@ module.exports = {
 async function registerUser(AtCoderName, DiscordId) {
     // ここにユーザー登録の処理を書く
     const data = {
-        AtCoderID: AtCoderName,
-        DiscordID: DiscordId,
+        discordID: DiscordId,
+        atcoderID: AtCoderName
     };
-    const url = 'localhost:8000/api/users/create';
+    const url = 'http://api:3000/api/users/create';
     try {
         const response = await axios.post(url, data);
         console.log(response.data);
