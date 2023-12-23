@@ -4,6 +4,7 @@ const registerFile = require('./commands/register.js')
 const { Client, GatewayIntentBits } = require('discord.js');
 // config.jsonからトークンを取得
 const { token } = require('./config.json');
+const unregisterFile = require('./commands/unregister.js');
 
 const client = new Client(
   { intents: [
@@ -31,6 +32,14 @@ client.on('interactionCreate', async (interaction) => {
         // register.jsのexecute関数を実行
         console.log('registerコマンドが実行されました。');
         await registerFile.execute(interaction);
+      } catch (error) {
+        console.error(error);
+        await interaction.reply('コマンドの実行中にエラーが発生しました。');
+      }
+    }else if(interaction.commandName === unregisterFile.data.name){
+      try{
+        console.log('unregisterコマンドが実行されました。');
+        await unregisterFile.execute(interaction);
       } catch (error) {
         console.error(error);
         await interaction.reply('コマンドの実行中にエラーが発生しました。');
