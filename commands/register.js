@@ -26,16 +26,16 @@ module.exports = {
 // ユーザー登録をする関数
 async function registerUser(AtCoderName, DiscordId) {
     // ここにユーザー登録の処理を書く
-    // const data = {
-    //     AtCoderName: AtCoderName,
-    //     DiscordId: DiscordId,
-    // };
-    // const url = '';
-    // try {
-    //     const response = await axios.post(url, data);
-    //     console.log(response.data);
-    // } catch (error) {
-    //     console.error(`エラーだよw 頑張ってねw : ${error}`);
-    // }
-    console.log('ユーザー登録の処理は後でちゃんと書いてね');
+    const data = {
+        AtCoderID: AtCoderName,
+        DiscordID: DiscordId,
+    };
+    const url = 'localhost:8000/api/users/create';
+    try {
+        const response = await axios.post(url, data);
+        console.log(response.data);
+    } catch (error) {
+        console.error(`エラーだよw 頑張ってねw : ${error}`);
+    }
+    // console.log('ユーザー登録の処理は後でちゃんと書いてね');
 }
