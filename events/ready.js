@@ -1,4 +1,5 @@
 const cron = require('node-cron');
+const { send } = require('process');
 
 
 module.exports = {
@@ -19,6 +20,7 @@ module.exports = {
             const url = 'https://atcoder.jp/contests/abc334'
 
             cron.schedule('* * 21 * * 0', async () => {
+                // sendContestNotification(channel, url);
                 channel.send('毎週日曜日21時にメッセージを送信するよ♪');
                 console.log('毎週日曜日21時にメッセージを送信するよ♪');
             }
