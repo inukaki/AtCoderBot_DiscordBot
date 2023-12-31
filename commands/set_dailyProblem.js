@@ -19,11 +19,13 @@ module.exports = {
         for(const emoji of emojis) {
             await message.react(emoji);
         }
+        // メッセージIDをDBに保存
+        setDailyMessage(message.id, interaction.guild.id);
     },
 };
 
-// dailyChannelIDをDBに保存
-async function setDailyChannel(channelID, guildID) {
+// dailyMessageIDをDBに保存
+async function setDailyMessage(messageID, guildID) {
     // const data = {
     //     channelID: channelID,
     //     guildID: guildID
@@ -35,5 +37,5 @@ async function setDailyChannel(channelID, guildID) {
     // } catch (error) {
     //     console.error(`error in setDailyChannel: ${error}`);
     // }
-    console.log('今日の一問チャンネルIDを保存する機能は後でちゃんと書いてね');
+    console.log('今日の一問のメッセージIDを保存する機能は後でちゃんと書いてね');
 }
