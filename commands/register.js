@@ -34,6 +34,7 @@ async function registerUser(AtCoderName, DiscordId) {
     const url = 'http://api:3000/api/users';
     try {
         const response = await axios.put(url, data);
+        // const response = await axios.get(url);
         console.log(response.data);
     } catch (error) {
         console.error(`error in registerUser : ${error}`);
