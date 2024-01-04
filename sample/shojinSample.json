@@ -2,40 +2,24 @@
     "serverID": 100000000000000000,
     "from": 1703332800,
     "to": 1703927083,
-    "results": [
+    "result": [
       {
         "atcoderID": "atcoderUser1",
-        "solved": [
-          {
-            "color": "Gray",
-            "count": 3
-          },
-          {
-            "color": "Blue",
-            "count": 2
-          },
-          {
-            "color": "Red",
-            "count": 4
-          }
-        ]
+        "solved":
+        {
+          "Gray":3,
+          "Blue":2,
+          "Red": 4
+        }
       },
       {
         "atcoderID": "atcoderUser2",
-        "solved": [
-          {
-            "color": "Brown",
-            "count": 4
-          },
-          {
-            "color": "Green",
-            "count": 2
-          },
-          {
-            "color": "Yellow",
-            "count": 4
-          }
-        ]
+        "solved": 
+        {
+          "Brown": 4,
+          "Green": 2,
+          "Yellow": 4
+        }
       }
     ]
   }
