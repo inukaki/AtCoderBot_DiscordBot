@@ -37,7 +37,7 @@ module.exports = {
                         // データを表示
                         // console.log(JSON.stringify(data, null, 2));
                         
-                        const results = data.result.map(user => {
+                        const results = data.results.map(user => {
                             // 各色の問題数を取り出す(Object.entriesで連想配列を配列に変換)
                             let solved = Object.entries(user.solved).map(([color, count]) => {
                                 const emoji = colorToEmoji[color];
