@@ -14,7 +14,7 @@ module.exports = {
     execute: async (interaction) => {
         const AtCoderName = interaction.options.getString('name');
         const DiscordId = interaction.user.id;
-        const guildId = interaction.guildId;
+        const guildId = interaction.guildId.toString();
         
         await interaction.reply(`ユーザー名 : ${AtCoderName} を登録しました。`);
 
@@ -39,16 +39,14 @@ async function registerUser(AtCoderName, DiscordId) {
     } catch (error) {
         console.error(`error in registerUser : ${error}`);
     }
-    // console.log('ユーザー登録の処理は後でちゃんと書いてね');
 }
 
 // ユーザー情報をサーバーと紐づける関数
 async function addShojinMember(guildId, userId){
     const data = {
-        serverID: `${guildId}`,
         discordID: `${userId}`
     };
-    const url = 'http://api:3000/api/servers/members';
+    const url = 'http://api:3000/api/servers/members'+guildId;
     try {
         const response = await axios.post(url, data);
         console.log(response.data);
