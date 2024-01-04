@@ -14,12 +14,13 @@ module.exports = {
     execute: async (interaction) => {
         const AtCoderName = interaction.options.getString('name');
         const DiscordId = interaction.user.id;
-        const DiscordName = interaction.user.username;
+        const guildId = interaction.guildId.toString();
         
         await interaction.reply(`ユーザー名 : ${AtCoderName} を登録しました。`);
 
         // ここにユーザー登録をする関数
         await registerUser(AtCoderName, DiscordId);
+        await addShojinMember(guildId, DiscordId);
     },
 };
 
@@ -27,15 +28,29 @@ module.exports = {
 async function registerUser(AtCoderName, DiscordId) {
     // ここにユーザー登録の処理を書く
     const data = {
-        discordID: DiscordId,
-        atcoderID: AtCoderName
+        discordID: `${DiscordId}`,
+        atcoderID: `${AtCoderName}`
     };
-    const url = 'http://api:3000/api/users/create';
+    const url = 'http://api:3000/api/users';
+    try {
+        const response = await axios.put(url, data);
+        // const response = await axios.get(url);
+        console.log(response.data);
+    } catch (error) {
+        console.error(`error in registerUser : ${error}`);
+    }
+}
+
+// ユーザー情報をサーバーと紐づける関数
+async function addShojinMember(guildId, userId){
+    const data = {
+        discordID: `${userId}`
+    };
+    const url = 'http://api:3000/api/servers/members'+guildId;
     try {
         const response = await axios.post(url, data);
         console.log(response.data);
     } catch (error) {
-        console.error(`エラーだよw 頑張ってねw : ${error}`);
+        console.error(`error in addShojinMember : ${error}`);
     }
-    // console.log('ユーザー登録の処理は後でちゃんと書いてね');
 }
