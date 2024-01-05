@@ -3,16 +3,16 @@ const axios = require('axios');
 
 module.exports = {
     data: new SlashCommandBuilder()
-        .setName('register')
-        .setDescription('ユーザーを登録します。')
+        .setName('contest_results')
+        .setDescription('コンテスト結果を送信します。')
         .addStringOption(option =>
-            option.setName('name')
-                .setDescription('AtCoderユーザー名を入力してください。')
+            option.setName('contest_name')
+                .setDescription('コンテスト名を入力してください。')
                 .setRequired(true)  // 必須かどうかを設定
         ),
     // コマンドが実行されたときに実行される処理
     execute: async (interaction) => {
-        const AtCoderName = interaction.options.getString('name');
+        const contestName = interaction.options.getString('contestName');
         const DiscordId = interaction.user.id;
         const guildId = interaction.guildId.toString();
         
@@ -46,11 +46,23 @@ async function addShojinMember(guildId, userId){
     const data = {
         discordID: `${userId}`
     };
-    const url = 'http://api:3000/api/servers/members/'+guildId;
+    const url = 'http://api:3000/api/servers/members'+guildId;
     try {
         const response = await axios.post(url, data);
         console.log(response.data);
     } catch (error) {
         console.error(`error in addShojinMember : ${error}`);
+    }
+}
+
+// コンテスト結果を所得する関数
+async function getDailyProblem(atcoderID, contestID) {
+    const url = 'http://api:3000/api/results/contest';
+    try {
+        const response = await axios.get(url);
+        const dailyProblem = response.data;
+        return dailyProblem;
+    } catch (error) {
+        console.error(`error in getDailyProblem: ${error}`);
     }
 }

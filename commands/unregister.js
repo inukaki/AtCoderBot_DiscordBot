@@ -1,4 +1,5 @@
 const {SlashCommandBuilder} = require('discord.js');
+const axios = require('axios');
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -23,7 +24,7 @@ async function unregisterUser(DiscordId, guildId) {
     };
     const url = 'http://api:3000/api/servers/members/' + guildId;
     try {
-        const response = await axios.put(url, data);
+        const response = await axios.delete(url, {params: data});
         // const response = await axios.get(url);
         console.log(response.data);
     } catch (error) {
