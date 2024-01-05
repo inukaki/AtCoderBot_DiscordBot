@@ -35,9 +35,6 @@ async function unregisterUser(DiscordId, guildId) {
 // AtCoderユーザー名を取得する関数
 async function getAtCoderName(DiscordId) {
     // ここにAtCoderユーザー名を取得する処理を書く
-    const data = {
-        DiscordId: DiscordId,
-    };
     const url = `http://api:3000/api/users/${DiscordId}`;
     try {
         const response = await axios.get(url);
@@ -46,6 +43,4 @@ async function getAtCoderName(DiscordId) {
     } catch (error) {
         console.error(`error in getAtCoderName : ${error}`);
     }
-    // console.log('AtCoderユーザー名を取得する処理は後でちゃんと書いてね');
-    // return 'AtCoderユーザー名';
 }
