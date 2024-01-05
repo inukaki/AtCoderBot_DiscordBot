@@ -35,9 +35,9 @@ module.exports = {
                         // const data = shojinSample;
 
                         // データを表示
-                        // console.log(JSON.stringify(data, null, 2));
+                        console.log(JSON.stringify(data, null, 2));
                         
-                        const results = data.results.map(user => {
+                        const results = data.result.map(user => {
                             // 各色の問題数を取り出す(Object.entriesで連想配列を配列に変換)
                             let solved = Object.entries(user.solved).map(([color, count]) => {
                                 const emoji = colorToEmoji[color];
@@ -51,8 +51,8 @@ module.exports = {
                         }).join('\n');
 
                         // 結果を送信
-                        ch.send(`今週の精進結果はこちらです！\n\n${results}`);
-                        console.log(`今週の精進結果はこちらです！\n\n${results}`)
+                        ch.send(`今週の精進結果はこちらです！\n${results}`);
+                        console.log(`今週の精進結果はこちらです！\n${results}`)
 
                     }catch (error) {
                         console.error(`error in sendShojinResults: ${error}`);
