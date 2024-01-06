@@ -1,0 +1,25 @@
+{
+    "serverID": 100000000000000000,
+    "from": 1703332800,
+    "to": 1703927083,
+    "result": [
+      {
+        "atcoderID": "atcoderUser1",
+        "solved":
+        {
+          "Gray":3,
+          "Blue":2,
+          "Red": 4
+        }
+      },
+      {
+        "atcoderID": "atcoderUser2",
+        "solved": 
+        {
+          "Brown": 4,
+          "Green": 2,
+          "Yellow": 4
+        }
+      }
+    ]
+  }
