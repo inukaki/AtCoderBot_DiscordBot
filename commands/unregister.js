@@ -1,4 +1,5 @@
 const {SlashCommandBuilder} = require('discord.js');
+const axios = require('axios');
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -23,7 +24,7 @@ async function unregisterUser(DiscordId, guildId) {
     };
     const url = 'http://api:3000/api/servers/members/' + guildId;
     try {
-        const response = await axios.put(url, data);
+        const response = await axios.delete(url, {params: data});
         // const response = await axios.get(url);
         console.log(response.data);
     } catch (error) {
@@ -34,9 +35,6 @@ async function unregisterUser(DiscordId, guildId) {
 // AtCoderユーザー名を取得する関数
 async function getAtCoderName(DiscordId) {
     // ここにAtCoderユーザー名を取得する処理を書く
-    const data = {
-        DiscordId: DiscordId,
-    };
     const url = `http://api:3000/api/users/${DiscordId}`;
     try {
         const response = await axios.get(url);
@@ -45,6 +43,4 @@ async function getAtCoderName(DiscordId) {
     } catch (error) {
         console.error(`error in getAtCoderName : ${error}`);
     }
-    // console.log('AtCoderユーザー名を取得する処理は後でちゃんと書いてね');
-    // return 'AtCoderユーザー名';
 }

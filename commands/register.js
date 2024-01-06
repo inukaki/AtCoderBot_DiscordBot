@@ -46,7 +46,7 @@ async function addShojinMember(guildId, userId){
     const data = {
         discordID: `${userId}`
     };
-    const url = 'http://api:3000/api/servers/members'+guildId;
+    const url = 'http://api:3000/api/servers/members/'+guildId;
     try {
         const response = await axios.post(url, data);
         console.log(response.data);
