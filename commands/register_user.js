@@ -3,8 +3,8 @@ const axios = require('axios');
 
 module.exports = {
     data: new SlashCommandBuilder()
-        .setName('register')
-        .setDescription('ユーザーを登録します。')
+        .setName('register_user')
+        .setDescription('DiscordとAtCoderを紐づけます。')
         .addStringOption(option =>
             option.setName('name')
                 .setDescription('AtCoderユーザー名を入力してください。')
@@ -20,7 +20,7 @@ module.exports = {
 
         // ここにユーザー登録をする関数
         await registerUser(AtCoderName, DiscordId);
-        await addShojinMember(guildId, DiscordId);
+        // await addShojinMember(guildId, DiscordId);
     },
 };
 
@@ -38,19 +38,5 @@ async function registerUser(AtCoderName, DiscordId) {
         console.log(response.data);
     } catch (error) {
         console.error(`error in registerUser : ${error}`);
-    }
-}
-
-// ユーザー情報をサーバーと紐づける関数
-async function addShojinMember(guildId, userId){
-    const data = {
-        discordID: `${userId}`
-    };
-    const url = 'http://api:3000/api/servers/members/'+guildId;
-    try {
-        const response = await axios.post(url, data);
-        console.log(response.data);
-    } catch (error) {
-        console.error(`error in addShojinMember : ${error}`);
     }
 }

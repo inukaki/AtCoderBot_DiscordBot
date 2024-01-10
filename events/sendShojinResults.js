@@ -1,6 +1,7 @@
 const cron = require('node-cron');
 const axios = require('axios'); //{}をつけるとエラーになる
 const shojinSample = require('../sample/shojinSample.json');
+const { count } = require('console');
 
 
 module.exports = {
