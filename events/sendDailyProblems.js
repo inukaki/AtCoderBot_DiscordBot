@@ -26,7 +26,7 @@ module.exports = {
             
             // 毎日の7時に実行されるイベント
             // スケジュール表現は左から、秒、分、時、日、月、曜日に対応している
-            cron.schedule('0 0 7 * * *', async () => {
+            cron.schedule('0 0 22 * * *', async () => {
             // cron.schedule('0 * * * * *', async () => {  // テスト用
 
                 
