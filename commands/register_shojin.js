@@ -11,7 +11,7 @@ module.exports = {
         const DiscordId = interaction.user.id;
         const AtCoderName = await getAtCoderName(DiscordId);
         const guildId = interaction.guildId.toString();
-        
+     
         if(AtCoderName === null){
             await interaction.reply('AtCoderユーザー名とDiscordIDが紐づけられていません。\n/register_user で紐づけを行ってください。');
             return;
