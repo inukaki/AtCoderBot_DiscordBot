@@ -77,7 +77,7 @@ module.exports = {
                 problems.push(color);
             }
         }
-        const members = ["inukaki", "maisuma"];
+        const members = ["inukaki", "maisumaaaaaaaaa"];
         const guildId = interaction.guildId.toString();
         const visible = "discordOnly";
         console.log(problems);
@@ -94,7 +94,7 @@ module.exports = {
         const startAtHours = time.getHours();
         // 今の時刻に設定
 
-        const url = 'http://api:3000/api/virtual_contests';
+        var url = 'http://api:3000/api/virtual_contests';
         const data = {
             startAt: contestTime,
             // startAt: unixtime,
@@ -119,38 +119,97 @@ module.exports = {
         // const startAtMinute = startAt.getMinutes();
         // const startAtHours = startAt.getHours();
 
+        var duringContest = false;
         cron.schedule("* * * * * *", async () => {
-            const url = 'http://api:3000/api/virtual_contests/'+contestID;
+            url = 'http://api:3000/api/virtual_contests/'+contestID;
+            
+            // var resultsUrl = `https://api:3000/api/virtual_contests/standings/${contestID}`;
+            // const results = await axios.get(resultsUrl);
+            // console.log(results.data);
+
             console.log(`0 ${startAtMinute} ${startAtHours} * * *`);
-            cron.schedule(`0 ${startAtMinute} ${startAtHours} * * *`, async () => {
-                // const url = 'http://api:3000/api/virtual_contests/'+contestID;
-                console.log(url);
-                var text = "";
-                try {
-                    const response = await axios.get(url);
-                    const contest = response.data;
-                    // contest.startAtを日本時間に変換
-                    const startAt = new Date(contest.startAt * 1000 + 9 * 60 * 60 * 1000);
-                    console.log(startAt);
-                    const startAtHours = startAt.getHours();
-                    const startAtMinutes = startAt.getMinutes()
-                    const endTime = new Date(startAt.getTime() + contest.durationSecond * 1000);
-                    const endAtHours = endTime.getHours();
-                    const endAtMinutes = endTime.getMinutes();
-                    console.log(contest);
-                    text += `${contest.title}が始まりました！\n`+
-                            `開始時刻: ${startAtHours}:${startAtMinutes}\n`+
-                            `終了時刻: ${endAtHours}:${endAtMinutes}\n`+
-                            `問題一覧\n`;
-                    for(const problem of contest.problems){
-                        text += `https://atcoder.jp/contests/${problem.contestID}/tasks/${problem.problemID}\n`;
+            
+            cron.schedule(`0,10,20,30,40,50 ${startAtMinute} ${startAtHours} * * *`, async () => {
+            // cron.schedule(`0 ${startAtMinute} ${startAtHours} * * *`, async () => {
+
+                if(!duringContest){
+                    // const url = 'http://api:3000/api/virtual_contests/'+contestID;
+                    console.log(url);
+                    var text = "";
+                    duringContest = true;
+
+                    try {
+                        const response = await axios.get(url);
+                        const contest = response.data;
+                        
+                        // contest.startAtを日本時間に変換
+                        const startAt = new Date(contest.startAt * 1000 + 9 * 60 * 60 * 1000);
+                        console.log(startAt);
+                        const startAtHours = startAt.getHours();
+                        const startAtMinutes = startAt.getMinutes()
+                        const endTime = new Date(startAt.getTime() + contest.durationSecond * 1000);
+                        const endAtHours = endTime.getHours();
+                        const endAtMinutes = endTime.getMinutes();
+                        console.log(contest);
+                        text += `${contest.title}が始まりました！\n`+
+                                `開始時刻: ${startAtHours}:${startAtMinutes}\n`+
+                                `終了時刻: ${endAtHours}:${endAtMinutes}\n`;
+                        var points = "配点\n";
+                        var problems = "問題一覧\n";
+                        for(const problem of contest.problems){
+                            points += `-${problem.point}`;
+                            problems += `https://atcoder.jp/contests/${problem.contestID}/tasks/${problem.problemID}\n`;
+                        }
+                        points += "-\n";
+                        text += points;
+                        text += problems;
+                        console.log(text);
+                        await interaction.channel.send(text);
+
+                        // コンテストの成績表を送信
+                        console.log(contestID);
+                        var resultsUrl = `http://api:3000/api/virtual_contests/standings/${contestID}`;
+                        // var resultsUrl = `http://api:3000/api/virtual_contests/${contestID}`;
+                        duringContest = true;
+                        const results = await axios.get(resultsUrl);
+                        console.log(results.data);
+                        let table = "| " + "参加者".padEnd(10) + " | " + "総得点".padEnd(4) + " | ";
+                        let horizontalBar = "".padEnd(13,"-") + "".padEnd(7,"-");
+                        for(let problem of contest.problems){
+                            table += `${problem.problemIndex}`.padEnd(4) + " | ";
+                            horizontalBar += ``.padEnd(7,"-");
+                        }
+                        table += "\n";
+                        table += horizontalBar + "-\n";
+                        for (let contestant of results.data) {
+
+                            let row = `| `+`${contestant.atcoderID}`.substring(0, 10).padEnd(10)+` | `+ `${contestant.point}`.padEnd(4) ;
+                            for (let problem of contestant.problems) {
+                                let problemPoint = problem.accepted ? problem.point : 0;
+                                row += ` | `+`${problemPoint}`.padEnd(4);
+                            }
+                            row += " |\n";
+                            table += row;
+                        }
+                        table = toFullWidth(table);
+                        // tableの先頭と最後にバッククオートを追加
+                        table = "```\n" + table + "```";
+                        console.log(table);
+                        await interaction.channel.send(table);
+                    } catch (error) {
+                        console.error(`error in makeVirtualContest : ${error}`);
                     }
-                    console.log(text);
-                    // interaction.channel.send(text);
-                } catch (error) {
-                    console.error(`error in makeVirtualContest : ${error}`);
                 }
             });
+            if(duringContest){
+
+            }
         });
     }
 };
+// 半角英数字を全角に変換する関数
+function toFullWidth(str) {
+    return str.replace(/[A-Za-z0-9!-~]/g, function(s) {
+        return String.fromCharCode(s.charCodeAt(0) + 0xFEE0);
+    }).replace(/ /g, '　');
+}

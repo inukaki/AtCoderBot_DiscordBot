@@ -12,7 +12,7 @@ module.exports = {
         client.on('ready', async() => {
             // スケジュール表現は左から、秒、分、時、日、月、曜日に対応している
             // cron.schedule('0,10,20,30,40,50 * * * * *', async () => {
-            cron.schedule('* *  * * 1', async () => {  // 毎週月曜日の9時に実行されるイベント
+            cron.schedule('0 0 0 * * 1', async () => {  // 毎週月曜日の9時に実行されるイベント
                     // 精進通知チャンネルに対して処理を実行
                     client.channels.cache.filter(ch => ch.name === '精進通知').forEach(async (ch) => {
                     try{
