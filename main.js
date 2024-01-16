@@ -6,7 +6,6 @@ const { sendShojinResults} = require('./events/sendShojinResults.js');
 const { sendDailyProblems } = require('./events/sendDailyProblems.js');
 const { sendContestInformation } = require('./events/sendContestInformation.js');
 
-
 // discord.jsから必要な機能を取得
 const { Client, GatewayIntentBits } = require('discord.js');
 
