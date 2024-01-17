@@ -7,7 +7,7 @@ module.exports = {
         // botを起動したときに実行されるイベント
         client.on('guildCreate', async (guild) => {
             const name = guild.name;
-            const id = guild.id;
+            const id = guild.id.toString();
             const memberCount = guild.memberCount;
 
             console.log(`新しいサーバーに参加しました: ${name} (id: ${id}). このサーバーは${guild.memberCount}人です！`);
@@ -24,9 +24,9 @@ module.exports = {
 
 // サーバー情報をDBに保存する関数
 async function saveServerInfo(guildId) {
-    console.log(`saveServerInfo : ${guildId}`);
+    console.log(`saveServerInfo : ` + guildId);
     const data = {
-        serverID: `${guildId}`
+        serverID: guildId
     };
     console.log(data);
     const url = 'http://api:3000/api/servers/init';

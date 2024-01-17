@@ -26,7 +26,7 @@ module.exports = {
             
             // 毎日の7時に実行されるイベント
             // スケジュール表現は左から、秒、分、時、日、月、曜日に対応している
-            cron.schedule('0 0 7 * * *', async () => {
+            cron.schedule('0 0 22 * * *', async () => {
             // cron.schedule('0 * * * * *', async () => {  // テスト用
 
                 
@@ -37,9 +37,9 @@ module.exports = {
 
                     var text ="本日の「今日の一問」はこちらです！\n";
     
-                    const serchText = '今日の一問のDifficultyを設定してください。'
+                    const searchText = '今日の一問のDifficultyを設定してください。'
                     const messages = await ch.messages.fetch({ limit: 100 });
-                    const message = messages.find(m => m.content === serchText);
+                    const message = messages.find(m => m.content === searchText);
                     // const messageId = "1192398645094514821";
                     // リアクションの付与状態を所得
                     // const message = await ch.messages.fetch(messageId);

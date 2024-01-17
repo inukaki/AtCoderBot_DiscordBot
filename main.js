@@ -4,8 +4,7 @@ const { readyEvents } = require('./events/ready.js');
 const { guildCreateEvents } = require('./events/guildCreate.js');
 const { sendShojinResults} = require('./events/sendShojinResults.js');
 const { sendDailyProblems } = require('./events/sendDailyProblems.js');
-const { sendContestNotification } = require('./events/sendContestNotification.js');
-
+const { sendContestInformation } = require('./events/sendContestInformation.js');
 
 // discord.jsから必要な機能を取得
 const { Client, GatewayIntentBits } = require('discord.js');
@@ -29,6 +28,6 @@ readyEvents(client);
 guildCreateEvents(client);
 sendShojinResults(client);
 sendDailyProblems(client);
-sendContestNotification(client);
+sendContestInformation(client);
 client.login(token);
   
