@@ -331,8 +331,8 @@ async function startVirtualContest(contestID, interaction){
         var text = `${contest.title}が始まりました！\n`+
                     `開始時刻: ${startAtHours}:${startAtMinutes}\n`+
                     `終了時刻: ${endAtHours}:${endAtMinutes}\n`;
-        var points;
-        var problems;
+        var points = "";
+        var problems = "";
         for(const problem of contest.problems){
             points += `-${problem.point}`;
             problems += `https://atcoder.jp/contests/${problem.contestID}/tasks/${problem.problemID}\n`;
