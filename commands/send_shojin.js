@@ -9,7 +9,19 @@ module.exports = {
     execute: async (interaction) => {
         const guildId = interaction.guildId.toString();
         const data = await getShojinRecord(guildId);
+        console.log(data);
+        const colorToEmoji = {
+            'Gray': '🩶',
+            'Brown': '🤎',
+            'Green': '💚',
+            'Cyan': '🩵',
+            'Blue': '💙',
+            'Yellow': '💛',
+            'Orange': '🧡',
+            'Red': '❤️'
+        };
         const results = data.results.map(user => {
+            
 
             var difficultyCount ={
                 Gray: 0,
