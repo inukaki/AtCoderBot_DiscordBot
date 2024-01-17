@@ -98,6 +98,58 @@ module.exports = {
         const endAtHours = endTime.getHours();
         const endAtMinutes = endTime.getMinutes();
 
+        // interaction.channel.send(
+        //     {embed: {
+        //       color: 7506394,
+        //       fields: [
+        //         {
+        //           name: "field :one:",
+        //           value: "1つめのfieldだよ"
+        //         },
+        //         {
+        //           name: "field :two:",
+        //           value: "2つめのfieldだよ"
+        //         },
+        //         {
+        //           name: "field :three:",
+        //           value: "3つめのfieldだよ"
+        //         },
+        //         {
+        //           name: "field :four:",
+        //           value: "4つめのfieldだよ"
+        //         },
+        //         {
+        //           name: "field :five:",
+        //           value: "5つめのfieldだよ"
+        //         }
+        //       ]
+        //     }}
+        //   );
+        await interaction.reply({
+            embeds: [{
+                color: 7506394,
+                title: `${contestName}`,
+                description: `${contestName}が作成されました！`,
+                image: {
+                    url: "https://cdn.discordapp.com/attachments/1185099222257762397/1196920651282391098/22e0e825aef7d8df994bb9f2b4e22996.png?ex=65b96238&is=65a6ed38&hm=5d6af7186cb6dd0df8c033626ec53dd5ed3a1d912c19d24caaea1db4ecc6e54c&"
+                },
+                fields: [
+                    {
+                        name: "開始時刻",
+                        value: `${JapaneseTime.getHours()}:${startAtMinute}`
+                    },
+                    {
+                        name: "コンテスト時間",
+                        value: `${contestDuration/60}分`
+                    },
+                    {
+                        name: "Difficulty",
+                        value: problemsColors.join("-")
+                    }
+                ]
+            }]
+        });
+
         // console.log(contestName, contestTime, contestDuration, members, guildId, visible, problemsColors)
         contestID = await makeVirtualContest(contestName, contestTime, contestDuration, members, guildId, visible, problemsColors);
         // const startAt = new Date(contestTime);
@@ -125,8 +177,8 @@ module.exports = {
                     resultsUrl = `http://api:3000/api/virtual_contests/standings/${contestID}`;
 
                     try {
-                        text = await startVirtualContest(contestID, interaction);
-                        await interaction.channel.send(text);
+                        await startVirtualContest(contestID, interaction);
+                        // await interaction.channel.send(text);
 
                         // duringContest = true;
                         // response = await axios.get(url);
@@ -279,8 +331,8 @@ async function startVirtualContest(contestID, interaction){
         var text = `${contest.title}が始まりました！\n`+
                     `開始時刻: ${startAtHours}:${startAtMinutes}\n`+
                     `終了時刻: ${endAtHours}:${endAtMinutes}\n`;
-        var points = "配点\n";
-        var problems = "問題一覧\n";
+        var points;
+        var problems;
         for(const problem of contest.problems){
             points += `-${problem.point}`;
             problems += `https://atcoder.jp/contests/${problem.contestID}/tasks/${problem.problemID}\n`;
@@ -288,7 +340,37 @@ async function startVirtualContest(contestID, interaction){
         points += "-\n";
         text += points;
         text += problems;
-        return text;
+        // return text;
+
+
+        interaction.channel.send({
+            embeds: [{
+                color: 7506394,
+                title: `${contest.title}`,
+                description: `${contest.title}が始まりました！`,
+                image: {
+                    url: "https://cdn.discordapp.com/attachments/1185099222257762397/1196920651282391098/22e0e825aef7d8df994bb9f2b4e22996.png?ex=65b96238&is=65a6ed38&hm=5d6af7186cb6dd0df8c033626ec53dd5ed3a1d912c19d24caaea1db4ecc6e54c&"
+                },
+                fields: [
+                    {
+                        name: "開始時刻",
+                        value: `${startAtHours}:${startAtMinutes}`
+                    },
+                    {
+                        name: "コンテスト時間",
+                        value: `${contest.durationSecond/60}分`
+                    },
+                    {
+                        name: "配点",
+                        value: points
+                    },
+                    {
+                        name: "問題一覧",
+                        value: problems
+                    }
+                ]
+            }]
+        });
     }catch(error){
         console.error(`error in startVirtualContest : ${error}`);
     }
