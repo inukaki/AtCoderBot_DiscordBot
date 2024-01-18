@@ -22,7 +22,7 @@ module.exports = {
 
             // スケジュール表現は左から、秒、分、時、日、月、曜日に対応している
             // cron.schedule('0,10,20,30,40,50 * * * * *', async () => { // テスト用
-            cron.schedule('0 30 6 * * *', async () => {  // 毎日7時に実行されるイベント(UNIX時間で指定)
+            cron.schedule('0 30 6 * * *', async () => {  // 毎日15時30分に実行されるイベント(UNIX時間で指定)
                     // コンテスト通知チャンネルに対して処理を実行
                     client.channels.cache.filter(ch => ch.name === 'コンテスト通知').forEach(async (ch) => {
                     try{
