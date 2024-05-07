@@ -21,7 +21,8 @@ const rest = new REST({ version: '10' }).setToken(token);
         // REST APIを使ってコマンドを登録
         await rest.put(
             // コマンドを登録するAPIのエンドポイントを作成
-            Routes.applicationGuildCommands(applicationId, guildId),
+            // Routes.applicationCommands(applicationId), // グローバルコマンド
+            Routes.applicationGuildCommands(applicationId, guildId), // ギルドコマンド
             // コマンドのリストをリクエストボディに設定
             { body: commands },
         );
