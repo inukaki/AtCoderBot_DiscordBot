@@ -6,4 +6,6 @@ RUN npm install axios
 RUN npm install node-cron
 RUN apk add curl
 
+CMD ["node", "main.js"]
+
 COPY . .

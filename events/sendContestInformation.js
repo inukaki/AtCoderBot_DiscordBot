@@ -60,7 +60,7 @@ module.exports = {
                             ch.send(message).then(message => {
                                 message.react('👀');
                             });
-                            console.log(message);
+                            // console.log(message);
                         });
                     }catch (error) {
                         console.error(`error in sendContestNotification: ${error}`);
@@ -90,7 +90,7 @@ module.exports = {
                             console.log('メッセージが見つかりませんでした');
                             return;
                         }
-                        console.log(alertAtHours, alertAtMinutes);
+                        // console.log(alertAtHours, alertAtMinutes);
                         const reaction = message.reactions.cache.get('👀');
                         const users = await reaction.users.fetch();
                         // リアクションをつけたユーザーに対してメッセージを送信
@@ -132,7 +132,7 @@ module.exports = {
                         console.log('メッセージが見つかりませんでした');
                         return;
                     }
-                    console.log(resultAtHours, resultAtMinutes);
+                    // console.log(resultAtHours, resultAtMinutes);
                     const reaction = message.reactions.cache.get('👀');
                     const users = await reaction.users.fetch();
                     // リアクションをつけたユーザーのコンテスト結果を所得
@@ -146,8 +146,8 @@ module.exports = {
                             console.error(error);
                         }
                     }
-                    console.log(text);
-                    ch.send(text);
+                    // console.log(text);
+                    // ch.send(text);
                 });
                 resultAtHours = -1;
                 resultAtMinutes = -1;
@@ -173,7 +173,7 @@ async function getContestResults(contestName,atcoderID) {
         // console.log(JSON.stringify(contestResult,null,2));
         var results = "";
         contestResult.solved.forEach(problem => {
-            console.log(problem);
+            // console.log(problem);
             results += problem.problemIndex;
         });
         return results;
