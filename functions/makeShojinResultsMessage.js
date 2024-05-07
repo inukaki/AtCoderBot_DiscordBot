@@ -1,3 +1,5 @@
+const toFillWidth = require('../functions/toFullWidth');
+
 async function makeShojinResultsMessage(data){
     
     const colorToEmoji = {
@@ -8,9 +10,13 @@ async function makeShojinResultsMessage(data){
         'Blue': '💙',
         'Yellow': '💛',
         'Orange': '🧡',
-        'Red': '❤️'
+        'Red': '💝',
+        'Sum': '📊'
     };
-    const results = data.results.map(user => {
+
+    var users=[];
+
+    data.results.map(user => {
         var difficultyCount ={
             Gray: 0,
             Brown: 0,
@@ -19,7 +25,8 @@ async function makeShojinResultsMessage(data){
             Blue: 0,
             Yellow: 0,
             Orange: 0,
-            Red: 0
+            Red: 0,
+            Sum: 0
         };
 
         user.solved.forEach(problem => {
@@ -40,24 +47,40 @@ async function makeShojinResultsMessage(data){
             }else if(problem.difficulty >= 2800){
                 difficultyCount.Red++;
             }
+            difficultyCount.Sum++;
         });
+        // usersにユーザー名と問題数を追加
+        if(difficultyCount.Sum === 0) return;
+        users.push({atcoderID: user.atcoderID, difficultyCount: difficultyCount});
+    });
+    // サンプルデータ
+    // users = [
+    //     {atcoderID: 'inukaki', difficultyCount: {Gray: 0, Brown: 1, Green: 0, Cyan: 0, Blue: 0, Yellow: 0, Orange: 0, Red: 0, Sum: 1}},
+    //     {atcoderID: 'maisuma', difficultyCount: {Gray: 2, Brown: 1, Green: 0, Cyan: 6, Blue: 0, Yellow: 0, Orange: 0, Red: 3, Sum: 12}},
+    //     {atcoderID: 'sentou', difficultyCount: {Gray: 2, Brown: 1, Green: 0, Cyan: 0, Blue: 0, Yellow: 0, Orange: 0, Red: 0, Sum: 3}},
+    //     {atcoderID: 'hainya', difficultyCount: {Gray: 5, Brown: 1, Green: 0, Cyan: 0, Blue: 0, Yellow: 0, Orange: 0, Red: 0, Sum: 6}}
+    // ];
+    // usersを問題数の多い順にソート
+    users.sort((a, b) => b.difficultyCount.Sum - a.difficultyCount.Sum);
 
-        // 各色の問題数を取り出す(Object.entriesで連想配列を配列に変換)
-        let solved = Object.entries(difficultyCount)
-        .filter(([color, count]) => count != 0)
-        .map(([color, count]) => {
-            // if (count === 0) return;
-            const emoji = colorToEmoji[color];
-            return `${emoji}: ${count}問`;
-        }).join('\n');
-        // solvedが空の場合は「なし」と表示
-        if (!solved) {
-            solved = 'なし';
-        }
-        return `${user.atcoderID}:\n${solved}`;
-    }).join('\n');
+//  |ＡｔＣｏｄｅｒＩＤ　|　🩶　|　🤎　|　💚　|　🩵　|　💙　|　💛　|　🧡　|　💝　|　📊　|
+//  ------------------------------------------------------------------------------
+//  |ｉｎｕｋａｋｉ　　　|　０　｜　１　｜　０　｜　０　｜　０　｜　０　｜　０　｜　０　｜　１　｜
+    var results = '```'+ '\n';
+    results += `|${toFillWidth("AtCoderID")}`.padEnd(11, '　') + '|';
+    results += Object.entries(colorToEmoji).map(([color, emoji]) => {
+        return `　${emoji}　`;
+    }).join("|")+ '|\n';
+    results += "".padStart(78, '-') + '\n';
+    users.forEach(user => {
+        results += `|${toFillWidth(user.atcoderID)}`.padEnd(11, '　') + '|';
+        results += Object.entries(user.difficultyCount).map(([color, count]) => {
+            return `　${toFillWidth(String(count))}`.padEnd(3, '　') + '｜';
+        }).join('') + '\n';
+    });
+    results += '```';
 
-    const reply = `今週の精進結果はこちらです！\n${results}`;
+    const reply = `今週の精進記録\n${results}`;
 
     return reply;
 }
