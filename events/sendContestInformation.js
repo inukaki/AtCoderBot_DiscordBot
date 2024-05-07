@@ -109,53 +109,53 @@ module.exports = {
                 }
             });
         });
-        cron.schedule('* * * * * *', async () => {
-            // resultAtHours = 10;
-            // resultAtMinutes = 46;
-            // console.log(resultAtHours, resultAtMinutes);
-            // cron.schedule(`0,10,20,30,40,50 * * * * *`, async () => {
-            cron.schedule(`0 ${resultAtMinutes} ${resultAtHours} * * *`, async () => {
-                if(resultAtMinutes != -1 && resultAtHours != -1){
-                client.channels.cache.filter(ch => ch.name === 'コンテスト通知').forEach(async (ch) => { 
+        // cron.schedule('* * * * * *', async () => {
+        //     // resultAtHours = 10;
+        //     // resultAtMinutes = 46;
+        //     // console.log(resultAtHours, resultAtMinutes);
+        //     // cron.schedule(`0,10,20,30,40,50 * * * * *`, async () => {
+        //     cron.schedule(`0 ${resultAtMinutes} ${resultAtHours} * * *`, async () => {
+        //         if(resultAtMinutes != -1 && resultAtHours != -1){
+        //         client.channels.cache.filter(ch => ch.name === 'コンテスト通知').forEach(async (ch) => { 
                     
-                    var text =`${contestId}の結果を発表します！\n`;
+        //             var text =`${contestId}の結果を発表します！\n`;
     
-                    const searchText = "本日は" + contestId + "が開催されます！\n" +  
-                    "参加される方はリアクションをつけてください！\n" + url;
-                    const messages = await ch.messages.fetch({ limit: 100 });
-                    //　searchTextを含むメッセージを所得
-                    console.log(contestId);
-                    const message = messages.find(m => {
-                        return m.content === searchText;
-                    });
-                    if(!message){
-                        console.log('メッセージが見つかりませんでした');
-                        return;
-                    }
-                    console.log(resultAtHours, resultAtMinutes);
-                    const reaction = message.reactions.cache.get('👀');
-                    const users = await reaction.users.fetch();
-                    // リアクションをつけたユーザーのコンテスト結果を所得
-                    for(const user of users){
-                        try{
-                            if(user[1].bot) continue;
-                            const atcoderID = await getAtCoderName(user[0]);
-                            const results = await getContestResults(contestId,atcoderID);
-                            text += `${atcoderID}：${results}\n`;
-                        }catch(error){
-                            console.error(error);
-                        }
-                    }
-                    console.log(text);
-                    ch.send(text);
-                });
-                resultAtHours = -1;
-                resultAtMinutes = -1;
-                // contestId = "";
-                // url = "";
-                }
-            });
-        });
+        //             const searchText = "本日は" + contestId + "が開催されます！\n" +  
+        //             "参加される方はリアクションをつけてください！\n" + url;
+        //             const messages = await ch.messages.fetch({ limit: 100 });
+        //             //　searchTextを含むメッセージを所得
+        //             console.log(contestId);
+        //             const message = messages.find(m => {
+        //                 return m.content === searchText;
+        //             });
+        //             if(!message){
+        //                 console.log('メッセージが見つかりませんでした');
+        //                 return;
+        //             }
+        //             console.log(resultAtHours, resultAtMinutes);
+        //             const reaction = message.reactions.cache.get('👀');
+        //             const users = await reaction.users.fetch();
+        //             // リアクションをつけたユーザーのコンテスト結果を所得
+        //             for(const user of users){
+        //                 try{
+        //                     if(user[1].bot) continue;
+        //                     const atcoderID = await getAtCoderName(user[0]);
+        //                     const results = await getContestResults(contestId,atcoderID);
+        //                     text += `${atcoderID}：${results}\n`;
+        //                 }catch(error){
+        //                     console.error(error);
+        //                 }
+        //             }
+        //             console.log(text);
+        //             ch.send(text);
+        //         });
+        //         resultAtHours = -1;
+        //         resultAtMinutes = -1;
+        //         // contestId = "";
+        //         // url = "";
+        //         }
+        //     });
+        // });
         });
         
     }
